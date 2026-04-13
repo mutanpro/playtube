@@ -347,6 +347,11 @@ function PT_GetVideoByID($video_id = '', $add_views = 0, $likes_dislikes = 0, $r
             }
 
         }
+        if (!empty($get_video->video_location) && strpos($get_video->video_location, 'upload/video') !== false && strpos($get_video->video_location, 'http') === false) {
+            $get_video->video_location = PT_GetMedia($get_video->video_location);
+            $get_video->source         = 'Uploaded';
+            $get_video->video_type     = 'video/mp4';
+        }
         $get_video->type         = 'video';
         if (!empty($get_video->youtube)) {
             $get_video->video_type     = 'video/youtube';
