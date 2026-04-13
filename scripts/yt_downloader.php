@@ -69,19 +69,9 @@ foreach ($pending_videos as $video) {
         $db->where('id', $video->id)->update(T_VIDEOS, [
             'video_location' => $output_path,
             'download_status' => 0, // Mark as finished
-            'converted' => 0,       // Set to 0 to let FFmpeg process it later if needed
+            'converted' => 1,       // Mark as 1 to make it instantly playable (already MP4)
             'privacy' => 0          // Set to public after successful download
         ]);
-        
-        // Add to conversion queue if FFmpeg is enabled
-        if ($pt->config->ffmpeg_system == 'on') {
-            $db->insert(T_QUEUE, [
-                'video_id' => $video->id,
-                'video_res' => 'all',
-                'processing' => 0
-            ]);
-            echo "Added to FFmpeg conversion queue.\n";
-        }
     } else {
         echo "Download FAILED or File Empty for Video ID: {$video->id}\n";
         // Reset status to 3 (Failed)
