@@ -70,6 +70,7 @@ foreach ($pending_videos as $video) {
             'video_location' => $output_path,
             'download_status' => 0, // Mark as finished
             'converted' => 1,       // Mark as 1 to make it instantly playable (already MP4)
+            'youtube' => '',        // Clear youtube ID so PT_GetVideoByID plays local MP4 instead of embedding URL
             'privacy' => 0          // Set to public after successful download
         ]);
     } else {
