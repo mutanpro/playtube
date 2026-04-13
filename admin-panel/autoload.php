@@ -1,9 +1,12 @@
 <?php
 
-cleanConfigData();
 $page = 'dashboard';
 if (!empty($_GET['page'])) {
     $page = PT_Secure($_GET['page']);
+}
+
+if (!in_array($page, ['import-from-youtube', 'import-from-dailymotion', 'import-from-twitch'])) {
+    cleanConfigData();
 }
 
 
