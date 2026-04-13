@@ -186,7 +186,11 @@
 								<input type="radio" id="privacy2" name="privacy" value="2" <?php echo ($pt->video->privacy == 2) ? 'checked' : '' ?>>
 								<label for="privacy2">{{LANG unlisted}}</label>
 							</div>
-							<div class="pt_vdo_cstm_radio">
+							<div class="custom-control custom-radio col-md-6 mb-15">
+								<input type="radio" id="privacy4" name="privacy" value="4" <?php echo ($pt->video->privacy == 4) ? 'checked' : '' ?>>
+								<label for="privacy4">Users Only</label>
+							</div>
+							<div class="custom-control custom-radio col-md-6 mb-15">
 								<input type="radio" id="privacy3" name="privacy" value="3" <?php echo ($pt->video->privacy == 1 && $pt->video->publication_date > 0) ? 'checked' : '' ?>>
 								<label for="privacy3">{{LANG scheduled}}</label>
 							</div>

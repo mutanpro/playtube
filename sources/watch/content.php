@@ -82,6 +82,11 @@ if ($get_video->privacy == 1) {
         $pt->video_type = 'private';
     }
 }
+if ($get_video->privacy == 4) {
+    if (!IS_LOGGED) {
+        $pt->config->require_login = 'on';
+    }
+}
 $pt->is_paid = 0;
 $pt->video_end = '';
 if ($get_video->sell_video > 0 || $get_video->rent_price > 0) {

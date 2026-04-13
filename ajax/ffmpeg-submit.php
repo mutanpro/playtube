@@ -273,7 +273,7 @@ if (!empty($_POST['privacy']) && $_POST['privacy'] == 3 && (empty($_POST['date']
             }
             $video_privacy = 0;
             if (!empty($_POST['privacy'])) {
-                if (in_array($_POST['privacy'], array(0, 1, 2))) {
+                if (in_array($_POST['privacy'], array(0, 1, 2, 4))) {
                     $video_privacy = PT_Secure($_POST['privacy']);
                 }
             }
