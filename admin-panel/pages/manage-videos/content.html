@@ -39,6 +39,14 @@ if (isset($_GET['type'])) {
 }
 $link .= "&type=".$video_type;
 
+$video_format = 'all';
+if (isset($_GET['format'])) {
+    if (in_array($_GET['format'], array('all', 'short', 'regular'))) {
+        $video_format = $_GET['format'];
+    }
+}
+$link .= "&format=".$video_format;
+
 $filter_keyword = (!empty($_GET['query'])) ? PT_Secure($_GET['query']) : '';
 $db->pageLimit = $limit_per_page;
 $where = 'id > 0';
@@ -78,6 +86,14 @@ if (isset($video_type)) {
     }
     elseif ($video_type == 'review') {
         $where .= " AND `approved` = 0 ";
+    }
+}
+if (isset($video_format)) {
+    if ($video_format == 'short') {
+        $where .= " AND `is_short` = 1 ";
+    }
+    elseif ($video_format == 'regular') {
+        $where .= " AND `is_short` = 0 ";
     }
 }
 if (!empty($filter_keyword)) {
@@ -369,6 +385,13 @@ $db->where('recipient_id',0)->where('admin',1)->where('seen',0)->where('type','a
                                             <option value="paid" <?php echo ($video_type == 'paid') ? 'selected' : '' ?>>Paid Videos</option>
                                             <option value="free" <?php echo ($video_type == 'free') ? 'selected' : '' ?>>Free Videos</option>
                                             <option value="review" <?php echo ($video_type == 'review') ? 'selected' : '' ?>>Under Review</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-2">
+                                        <select class="form-control show-tick" id="format" name="format">
+                                            <option value="all" <?php echo ($video_format == 'all') ? 'selected' : '' ?>>All Formats</option>
+                                            <option value="short" <?php echo ($video_format == 'short') ? 'selected' : '' ?>>Shorts Only</option>
+                                            <option value="regular" <?php echo ($video_format == 'regular') ? 'selected' : '' ?>>Regular Only</option>
                                         </select>
                                     </div>
 									<div class="col-lg-2 col-md-2">
