@@ -215,5 +215,9 @@ else{
         }
     }
 }
-
+if (empty($data)) {
+    $data = array('status' => 200, 'message' => 'Chunk received');
+}
+echo json_encode($data);
+exit();
 ?>

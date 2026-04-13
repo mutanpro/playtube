@@ -1675,12 +1675,13 @@ function time_to_iso8601_duration($time) {
 function uploadChunk($fileUploadName, $fileUploadFolder = "uploads") {
     // RESPONSE FUNCTION
     global $db, $pt;
-    if (!function_exists('index')) {
-        function index($ok=1,$info=""){
-            // THROW A 400 ERROR ON FAILURE
-            if ($ok==0) { http_response_code(400); }
-            die(json_encode(["ok"=>$ok, "info"=>$info]));
+    function index($ok=1,$info=""){
+        // THROW A 400 ERROR ON FAILURE
+        if ($ok==0) { 
+            http_response_code(400); 
+            header("X-App-Error: " . preg_replace('/[^a-zA-Z0-9_\-:. ]/', '', $info));
         }
+        die(json_encode(["ok"=>$ok, "info"=>$info, "cwd" => getcwd()]));
     }
     
     // INVALID UPLOAD
