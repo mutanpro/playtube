@@ -1,11 +1,12 @@
 <?php
-$themeName = 'YouPlay';
+$themeName = 'unisnuplay';
 
-$themeFolder = 'youplay';
+$themeFolder = 'unisnuplay';
 
-$themeAuthor = 'Deen Doughouz';
+$themeAuthor = 'pdpsi';
 
 $themeAuthorUrl = 'mailto:wowondersocial@gmail.com';
 
 $themeVirsion = '1.0';
 ?>
+
