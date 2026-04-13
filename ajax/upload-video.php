@@ -1,4 +1,5 @@
-<?php 
+<?php
+error_reporting(0); 
 if (IS_LOGGED == false || $pt->config->upload_system != 'on') {
     $data = array('status' => 400, 'error' => 'Not logged in');
     echo json_encode($data);

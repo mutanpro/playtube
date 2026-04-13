@@ -1680,8 +1680,9 @@ function uploadChunk($fileUploadName, $fileUploadFolder = "uploads") {
         if ($ok==0) { 
             http_response_code(400); 
             header("X-App-Error: " . preg_replace('/[^a-zA-Z0-9_\-:. ]/', '', $info));
+            die(json_encode(["ok"=>$ok, "info"=>$info, "cwd" => getcwd()]));
         }
-        die(json_encode(["ok"=>$ok, "info"=>$info, "cwd" => getcwd()]));
+        die(json_encode(["ok"=>$ok, "info"=>$info]));
     }
     
     // INVALID UPLOAD

@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 
 //$max_user_upload = $pt->config->user_max_upload;
 
