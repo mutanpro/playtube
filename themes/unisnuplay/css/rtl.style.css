@@ -4,7 +4,7 @@ div.dataTables_wrapper div.dataTables_filter {text-align: left;}
 .announcement-renderer {left: auto;right: 30px;}
 .pull-right {float: left !important;}
 .pull-left {float: right !important;}
-.articles-content .pt_article_h_list .video-info .article-views {border-left: 0;border-right: 2px solid #04abf2;padding-left: 0;padding-right: 8px;}
+.articles-content .pt_article_h_list .video-info .article-views {border-left: 0;border-right: 2px solid #008844;padding-left: 0;padding-right: 8px;}
 .articles-content .articles-container > h3 .article-categories, .articles-content .articles-container > h3 .article-categories div form div {margin-left: 0;margin-right: auto;}
 .article-categories div form input {padding-right: 12px;padding-left: 40px;}
 .article-categories div form div button {right: auto;left: 0;border-radius: 10px 0 0 10px;}
@@ -210,7 +210,7 @@ body.mobi_side_open .yp_side_drawer {right: 0;}
 }
 
 @media (max-width: 700px){
-ul.notfi-dropdown {left: 0 !important;width: 100% !important;ight: auto;}
+ul.notfi-dropdown {left: 0 !important;width: 100% !important;right: auto;}
 }
 
 @media (max-width: 620px){
