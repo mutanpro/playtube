@@ -1,5 +1,6 @@
 <?php
 require 'assets/libs/youtube-sdk/vendor/autoload.php';
+decryptConfigData();
 $pt->sub_categories_array = array();
 foreach ($pt->sub_categories as $cat_key => $subs) {
     $pt->sub_categories_array["'".$cat_key."'"] = '<option value="0">Sub Category</option>';
@@ -46,7 +47,11 @@ if (!empty($_GET['query']) || !empty($_GET['multi-query'])) {
         if (!empty($_GET['search-type'])) {
             if ($_GET['search-type'] == 'channel') {
                 $searchArray['channelId'] = $query;
-                $searchArray['q'] = '';
+                if (!empty($_GET['channel_q'])) {
+                    $searchArray['q'] = PT_Secure($_GET['channel_q']);
+                } else {
+                    $searchArray['q'] = '';
+                }
                 $channel = true;
             }
         }
@@ -171,9 +176,17 @@ if (!empty($_GET['auto_import'])) {
                               	<div class="col-md-3" id="normal-query-form">
 	                              	<div class="form-group form-float">
 	                                    <div class="form-line">
-                                            <label class="form-label search-form keyword-text"><?php echo ($channel == false) ? 'Keyword To Import' : 'YouTube Channel ID';?></label>
+                                             <label class="form-label search-form keyword-text"><?php echo ($channel == false) ? 'Keyword To Import' : 'YouTube Channel ID';?></label>
 	                                        <input type="text" name="query" id="query" class="form-control" value="<?php echo (empty($multi_query)) ? urldecode($query) : ''; ?>">
 
+	                                    </div>
+	                                </div>
+	                              </div>
+                                  <div class="col-md-3" id="channel-q-form" <?php echo ($channel == false) ? 'style="display:none;"' : '';?>>
+	                              	<div class="form-group form-float">
+	                                    <div class="form-line">
+                                            <label class="form-label search-form">Search Keyword in Channel (Optional)</label>
+	                                        <input type="text" name="channel_q" id="channel_q" class="form-control" value="<?php echo (!empty($_GET['channel_q'])) ? PT_Secure($_GET['channel_q']) : ''; ?>">
 	                                    </div>
 	                                </div>
 	                              </div>
@@ -209,6 +222,13 @@ if (!empty($_GET['auto_import'])) {
                                     <label class="form-label search-form keyword-text">&nbsp;</label>
                                     <select name="sub_category_id" id="sub_category_id" class="form-control">
                                         <?php echo $pt->sub_categories_array["'1'"]; ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <label class="form-label search-form">Import As</label>
+                                    <select class="form-control show-tick" id="video_type" name="video_type">
+                                        <option value="video" selected>Normal Video</option>
+                                        <option value="short">Shorts (Auto Download)</option>
                                     </select>
                                 </div>
                                 <div class="clearfix"></div>
@@ -454,7 +474,7 @@ $('.btn-import').on('click', function(event) {
     		data.push(object_video);
     	}
     });
-    $.post('{{LINK aj/ap/import-youtube-videos}}', {videos: data, category_id: $('#category_id').val(),sub_category_id: $('#sub_category_id').val(),user_id:user_id}, function () {
+    $.post('{{LINK aj/ap/import-youtube-videos}}', {videos: data, category_id: $('#category_id').val(),sub_category_id: $('#sub_category_id').val(),user_id:user_id, video_type: $('#video_type').val()}, function () {
         $('#import-modal').find('.modal-content').removeClass('modal-col-teal').addClass('modal-col-light-green');
         $('#import-modal').find('.loading').html('<i class="fa fa-check"></i> Videos successfully imported, redirecting to next page');
         window.location.reload(false);
@@ -466,8 +486,10 @@ $('#search-type').on('change', function(event) {
     event.preventDefault();
     if ($(this).val() == 'public') {
         $('.keyword-text').text('Keyword To Import');
+        $('#channel-q-form').hide();
     } else {
         $('.keyword-text').text('YouTube Channel ID');
+        $('#channel-q-form').show();
         $('#auto_import').val('0');
     }
 });
