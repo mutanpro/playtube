@@ -4714,7 +4714,7 @@ function decryptConfigData()
     foreach ($pt->encryptedKeys as $key => $value) {
         if (in_array($value, array_keys((array) $pt->config)) && strpos($pt->config->{$value},'$Ap1_') !== false) {
             $tx = str_replace('$Ap1_', '', $pt->config->{$value});
-            $pt->config->{$value} = openssl_decrypt($tx, "AES-128-ECB", $siteEncryptKey);
+            $pt->config->{$value} = @openssl_decrypt($tx, "AES-128-ECB", $siteEncryptKey);
         }
     }
 }

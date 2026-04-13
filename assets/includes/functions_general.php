@@ -1699,19 +1699,21 @@ function uploadChunk($fileUploadName, $fileUploadFolder = "uploads") {
     // DEAL WITH CHUNKS
     $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
     $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-    $out = fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
+    $out = @fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
     if ($out) {
-        $in = fopen($_FILES["video"]['tmp_name'], "rb");
+        $in = @fopen($_FILES["video"]['tmp_name'], "rb");
         if ($in) {
             while ($buff = fread($in, 4096)) { fwrite($out, $buff); }
         } else {
-            index(0, "Failed to open input stream");
+            $error = error_get_last();
+            index(0, "Failed to open input stream: " . $error['message']);
         }
         fclose($in);
         fclose($out);
-        unlink($_FILES["video"]['tmp_name']);
+        @unlink($_FILES["video"]['tmp_name']);
     } else {
-        index(0, "Failed to open output stream");
+        $error = error_get_last();
+        index(0, "Failed to open output stream: " . $error['message']);
     }
     // CHECK IF FILE HAS BEEN UPLOADED
     if (!$chunks || $chunk == $chunks - 1) {
