@@ -1,8 +1,6 @@
 <?php
 require 'assets/init.php';
 
-cleanConfigData();
-
 if (IS_LOGGED == false || (PT_IsAdmin() == false && !in_array($pt->user->admin, array(1,2,3)))) {
     header("Location: " . PT_Link(''));
     exit();
@@ -38,9 +36,14 @@ if (!empty($_POST)) {
     }
 }
 
+$path = (!empty($_GET['path'])) ? getPageFromPath($_GET['path']) : null;
 if (empty($path)) {
     $path = array('page' => 'dashboard');
 }
+$files = scandir('admin-panel/pages');
+unset($files[0]);
+unset($files[1]);
+
 $page = 'dashboard';
 if (!empty($path['page']) && in_array($path['page'], $files) && file_exists('admin-panel/pages/'.$path['page'].'/content.html')) {
     $page = $path['page'];
@@ -62,6 +65,7 @@ if ($pt->user->admin != 1 && !CheckHavePermission($page) && $page != 'changelog'
 if (!in_array($page, ['import-from-youtube', 'import-from-dailymotion', 'import-from-twitch'])) {
     cleanConfigData();
 }
+
 $data = array();
 $text = PT_LoadAdminPage($page.'/content');
 ?>
