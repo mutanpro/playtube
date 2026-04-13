@@ -1706,14 +1706,16 @@ function uploadChunk($fileUploadName, $fileUploadFolder = "uploads") {
             while ($buff = fread($in, 4096)) { fwrite($out, $buff); }
         } else {
             $error = error_get_last();
-            index(0, "Failed to open input stream: " . $error['message']);
+            $user = function_exists('posix_getpwuid') ? posix_getpwuid(posix_geteuid())['name'] : 'unknown';
+            index(0, "Failed to open input stream: " . $error['message'] . " (User: $user, Path: " . realpath($_FILES["video"]['tmp_name']) . ")");
         }
         fclose($in);
         fclose($out);
         @unlink($_FILES["video"]['tmp_name']);
     } else {
         $error = error_get_last();
-        index(0, "Failed to open output stream: " . $error['message']);
+        $user = function_exists('posix_getpwuid') ? posix_getpwuid(posix_geteuid())['name'] : 'unknown';
+        index(0, "Failed to open output stream: " . $error['message'] . " (User: $user, Path: " . $filePath . ".part" . ")");
     }
     // CHECK IF FILE HAS BEEN UPLOADED
     if (!$chunks || $chunk == $chunks - 1) {
