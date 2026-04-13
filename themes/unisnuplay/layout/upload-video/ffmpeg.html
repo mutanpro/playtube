@@ -402,6 +402,7 @@
 				</div>
 				<input type="hidden" name="video-location" id="video-location" value="">
 				<input type="hidden" name="video-thumnail" id="video-thumnail" value="">
+				<input type="hidden" name="duration" id="video-duration" value="">
 				<input type="hidden" name="uploaded_id" id="uploaded_id" value="">
 				<?php if ($pt->is_short) { ?>
                <input type="hidden" name="is_short" value="yes">
@@ -832,6 +833,7 @@ $(function () {
 			$(".vid_extra_opts").show();
 			$(".video_fields").show();
 			video.on('loadeddata', function() {
+				$('#video-duration').val(video[0].duration);
 				video[0].addEventListener('timeupdate', function () {
 	               if (this.currentTime >= parseInt($('#video_end_time').val())) {
 	                  this.pause();

@@ -152,12 +152,13 @@ if (!empty($_POST['privacy']) && $_POST['privacy'] == 3 && (empty($_POST['date']
             $_POST['video-location'] = $ex[0] . "_shorts.".$ex[1];
         }
         $file = $duration_file     = $getID3->analyze($_POST['video-location']);
-        $duration = '00:00';
+        $duration = '00:00:00';
         if (!empty($file['playtime_string'])) {
             $duration = PT_Secure($file['playtime_string']);
+        } elseif (!empty($_POST['duration'])) {
+            $duration_seconds = intval($_POST['duration']);
+            $duration = gmdate("H:i:s", $duration_seconds);
         }
-        // if ($pt->config->shorts_system == 'on' && !empty($_POST['is_short']) && $_POST['is_short'] == 'yes') {
-        //     if (!empty($file) && !empty($file['playtime_seconds']) && $file['playtime_seconds'] > $pt->config->shorts_duration) {
         //         $data = array('status' => 400,'message' => str_replace('{D}', $pt->config->shorts_duration, $pt->all_lang->max_video_duration));
         //         echo json_encode($data);
         //         exit();
