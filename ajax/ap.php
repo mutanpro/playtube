@@ -742,6 +742,14 @@ if ($first == 'import-youtube-videos') {
             if (!empty($_POST['user_id']) && is_numeric($_POST['user_id']) && $_POST['user_id'] > 0) {
                 $user_id = PT_Secure($_POST['user_id']);
             }
+            $is_short = 0;
+            $download_status = 0;
+            $privacy = 0;
+            if (!empty($_POST['video_type']) && $_POST['video_type'] == 'short' && $pt->config->shorts_system == 'on') {
+                $is_short = 1;
+                $download_status = 1;
+                $privacy = 1; // Set to private during download
+            }
             $data_insert = array(
                 'video_id' => $video_id,
                 'user_id' => $user_id,
@@ -753,7 +761,10 @@ if ($first == 'import-youtube-videos') {
                 'youtube' => $video_id_,
                 'thumbnail' => $thumb,
                 'time' => time(),
-                'registered' => date('Y') . '/' . intval(date('m'))
+                'registered' => date('Y') . '/' . intval(date('m')),
+                'is_short' => $is_short,
+                'download_status' => $download_status,
+                'privacy' => $privacy
             );
             if (!empty($_POST['sub_category_id'])) {
                 $is_found = $db->where('type',PT_Secure($_POST['category_id']))->where('lang_key',PT_Secure($_POST['sub_category_id']))->getValue(T_LANGS,'COUNT(*)');
