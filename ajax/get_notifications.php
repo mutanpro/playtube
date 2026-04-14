@@ -58,7 +58,9 @@ else{
 		$data['html']   = $html;
 		$data['len']    = count($notif_set);
 
-		ob_end_clean();
+		if (ob_get_level() > 0) {
+			ob_end_clean();
+		}
         header("Content-Encoding: none");
         header("Connection: close");
         ignore_user_abort();

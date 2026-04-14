@@ -33,7 +33,7 @@ function PT_LoadPage($page_url = '', $data = array(), $set_lang = true) {
                 }, $page_content);
             } else {
                 $object_to_replace = "{{" . $key . "}}";
-                $page_content      = str_replace($object_to_replace, $replace, $page_content);
+                $page_content      = str_replace($object_to_replace, (string)$replace, $page_content);
             }
         }
     }
@@ -74,7 +74,7 @@ function PT_LoadAdminPage($page_url = '', $data = array(), $set_lang = true) {
                 }, $page_content);
             } else {
                 $object_to_replace = "{{" . $key . "}}";
-                $page_content      = str_replace($object_to_replace, $replace, $page_content);
+                $page_content      = str_replace($object_to_replace, (string)$replace, $page_content);
             }
         }
     }
