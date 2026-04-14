@@ -5,6 +5,7 @@
     "db_dbname": "playtube",
     "site_url": "http://localhost:8080",
     "server_ip": "0.0.0.0",
+    "hostname": "localhost",
     "server_port": 4545,
     "amazon": false,
     "amazon_bucket": null,

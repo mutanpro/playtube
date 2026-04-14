@@ -89,7 +89,7 @@ $config['hostname'] = '';
 $config['server_port'] = '';
 if (!empty($get_nodejs_config)) {
     $pt->extra_config = json_decode($get_nodejs_config);
-    $config['hostname']  = $pt->extra_config->server_ip;
+    $config['hostname']  = (!empty($pt->extra_config->hostname)) ? $pt->extra_config->hostname : $pt->extra_config->server_ip;
     $config['server_port']  = $pt->extra_config->server_port;
 } else {
     exit('Please make sure the file: nodejs/config.json exists and readable.');
